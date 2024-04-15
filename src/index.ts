@@ -1,12 +1,11 @@
-import figlet from "figlet";
+import server from "bunrest";
+import { RouterApp } from "./router/path";
+import { Serve } from "./helpers/serve";
+export const app = server();
 
-const server = Bun.serve({
-    port: 3000,
-    fetch(req) {
-        return new Response("Bun!");
-    },
+RouterApp();
+Serve()
+
+app.listen(5000, () => {
+    console.log('App is listening on port 5000');
 });
-
-const body = figlet.textSync("wahyu!");
-console.log(body);
-console.log(`Listening on http://localhost:${server.port} ...`);
