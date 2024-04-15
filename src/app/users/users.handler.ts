@@ -4,7 +4,7 @@ import { UsersModel } from "./users.model";
 import { Response } from "../../helpers/response";
 import type { UserRequest } from "./users.types";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import PrismaErrorToHttpResponse from "../../helpers/response-error";
+import PrismaErrorToHttpResponse from "../../validation/prisma-error";
 import { ValidationCheck } from "../../validation/check";
 
 export const UsersHandler = {
