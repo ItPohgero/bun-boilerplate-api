@@ -5,6 +5,7 @@ import { Response } from "../../helpers/response";
 import type { UserRequest } from "./users.types";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import PrismaErrorToHttpResponse from "../../helpers/response-error";
+import { ValidationCheck } from "../../validation/check";
 
 export const UsersHandler = {
     GetAll: async (res: BunResponse, req: BunRequest) => {
@@ -31,16 +32,24 @@ export const UsersHandler = {
         }
     },
     Create: async (res: BunResponse, req: BunRequest) => {
+        const body: UserRequest | any = req?.body;
+        const { success, error } = ValidationCheck(body, {
+            email: ['required', 'email'],
+            name: ['required']
+        });
+        if (!success) {
+            return Response(res).JsonValidationError({ data: error });
+        }
+
         try {
-            const body: UserRequest | any = req?.body;
             await UsersModel.Create(body)
             return Response(res)?.Json201({})
-        } catch (error) {
+        } catch (error: any) {
             if (error instanceof PrismaClientKnownRequestError) {
                 const data = PrismaErrorToHttpResponse(error);
                 return Response(res).JsonValidationError({ data })
             }
-            return Response(res).Json500({ message: error })
+            return Response(res).JsonValidationError({ data: error?.message })
         }
     },
 }
