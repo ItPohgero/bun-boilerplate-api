@@ -1,10 +1,8 @@
 import { app } from "..";
-import { TestHandler } from "../app/test/test.handler";
+import { UsersHandler } from "../app/users/users.handler";
 
 function RouterApp() {
-    app.get('/test', (req, res) => {
-        TestHandler.GetData(res, req)
-    });
+    app.get('/users', (req, res) => UsersHandler.GetData(res, req));
 }
 
 export { RouterApp }
