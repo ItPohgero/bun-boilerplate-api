@@ -37,9 +37,7 @@ export const UsersHandler = {
             email: ['required', 'email'],
             name: ['required']
         });
-        if (!success) {
-            return Response(res).JsonValidationError({ data: error });
-        }
+        if (!success) Response(res).JsonValidationError({ data: error });
 
         try {
             await UsersModel.Create(body)
