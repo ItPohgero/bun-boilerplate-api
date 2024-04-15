@@ -3,11 +3,22 @@ import type { UserRequest } from "./users.types";
 
 export const UsersModel = {
     FindAll: async () => {
-        return await prisma.user.findMany();
+        return await prisma.user.findMany({
+            select: {
+                id: true,
+                email: true,
+                name: true
+            }
+        });
     },
     FindOneById: async (id: number) => {
         return await prisma.user.findUnique({
             where: { id },
+            select: {
+                id: true,
+                email: true,
+                name: true
+            }
         });
     },
     Create: async (data: UserRequest) => {

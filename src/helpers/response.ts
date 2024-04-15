@@ -7,6 +7,9 @@ interface PropsResponseJson {
 interface PropsResponseJsonWithData extends PropsResponseJson {
     data: any;
 }
+interface PropsResponseJsonValidation extends PropsResponseJson {
+    data: any;
+}
 
 export const Response = (res: BunResponse) => ({
     /**
@@ -102,6 +105,23 @@ export const Response = (res: BunResponse) => ({
         return res.status(Code).json({
             "Message": message ?? "Internal server error",
             "Code": Code,
+        });
+    },
+
+    /**
+    * Method to send a JSON response with status code 500 (Internal Server Error).
+    * This method is designed to handle various response data structures.
+    * @param props - The response properties containing message.
+    * @param statusCode - The status code of the response (default is 200).
+    * @returns The BunResponse object with JSON data and specified status code.
+    */
+    JsonValidationError: (props: PropsResponseJsonValidation) => {
+        const { message } = props;
+        const Code = 400;
+        return res.status(Code).json({
+            "Message": message ?? "Error Validation From Client",
+            "Code": Code,
+            "Results":  props?.data
         });
     },
 });
