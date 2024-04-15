@@ -32,7 +32,7 @@ export const UsersHandler = {
     },
     Create: async (res: BunResponse, req: BunRequest) => {
         try {
-            const body: UserRequest | any = req.body;
+            const body: UserRequest | any = req?.body;
             await UsersModel.Create(body)
             return Response(res)?.Json201({})
         } catch (error) {
